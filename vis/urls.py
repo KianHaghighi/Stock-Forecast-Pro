@@ -16,10 +16,9 @@ Including another URLconf
 #urls.py
 
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
 import sys
-sys.path.append('C:\\Users\\kianh\\vis')
-sys.path.append('C:\\Users\\kianh\\vis')
 import stockVisualizer.views
 import prediction_app.views
 
@@ -32,5 +31,8 @@ urlpatterns = [
     path('streamlit_view/', prediction_app.views.streamlit_prediction, name='streamlit_view'),
     path('home/', stockVisualizer.views.home, name='home'),
     path('about/',stockVisualizer.views.about, name='about'),
-    path('contact/', stockVisualizer.views.contact, name='contact')
+    path('contact/', stockVisualizer.views.contact, name='contact'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('signup/', stockVisualizer.views.signup_view, name='signup'),
+    path('accounts/profile/', stockVisualizer.views.profile_view, name='profile'),
 ]

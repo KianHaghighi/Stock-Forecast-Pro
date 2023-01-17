@@ -20,7 +20,9 @@ import prediction_app.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("account/", include('django.contrib.auth.urls')),
     path("", stockVisualizer.views.home),
     path('get_stock_data/', stockVisualizer.views.get_stock_data),
     path('/prediction_app/', include('prediction_app.urls')),
+    path('accounts/profile', stockVisualizer.views.profile_view, name='profile'),
 ]

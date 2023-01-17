@@ -1,8 +1,16 @@
 from django.shortcuts import render
+from .forms import LoginForm
 from django.http import HttpResponse
 from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from .models import StockData
+
+
+from django.contrib.auth.models import User
+#from .forms import SignUpForm
 
 import requests
 import json
@@ -25,7 +33,29 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html', {})
 
+def login(request):
+     form = AuthenticationForm()
+     return render(request, 'registration/login.html', {'form': form})
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Log the user in and redirect to the home page
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+def profile_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'profile.html', {'message': 'You are now logged in.'})
+    else:
+        return render(request, 'profile.html', {'message': 'Please login to access your profile.'})
+
 #using template "streamlit.html"
+#log-in required to view this
+@csrf_exempt
 def streamlit_view(request):
     return render(request, 'streamlit.html')
 
